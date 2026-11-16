@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -oq StickerWeb-Android (1).zip
+      - run: unzip -oq StickerWeb-Android.zip
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
