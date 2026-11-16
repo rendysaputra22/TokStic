@@ -1,20 +1,12 @@
-name: Build APK
+name: Build TokStic
 on:
   workflow_dispatch:
-    inputs:
-      url:
-        description: "Domain web kamu (https://...)"
-        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: unzip -q StickerWeb-Android.zip
-      - name: Set URL
-        env:
-          APP_URL: ${{ inputs.url }}
-        run: sed -i "s|https://GANTI-DOMAIN-KAMU.example.com|$APP_URL|" StickerWeb-Android/app/src/main/java/com/renn/stickerweb/MainActivity.kt
+      - run: unzip -oq StickerWeb-Android.zip
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -24,7 +16,9 @@ jobs:
           gradle-version: 8.7
       - run: gradle assembleDebug --no-daemon
         working-directory: StickerWeb-Android
+      - name: Rename APK
+        run: cp StickerWeb-Android/app/build/outputs/apk/debug/app-debug.apk TokStic.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: StickerWeb-APK
-          path: StickerWeb-Android/app/build/outputs/apk/debug/app-debug.apk
+          name: TokStic
+          path: TokStic.apk
